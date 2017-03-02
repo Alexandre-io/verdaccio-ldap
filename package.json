@@ -1,0 +1,32 @@
+{
+  "name": "verdaccio-ldap",
+  "version": "1.0.0",
+  "description": "LDAP auth plugin for verdaccio",
+  "author": "Alexandre L.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
+  },
+  "dependencies": {
+    "ldapauth-fork": "~3.0.0",
+    "ldapjs": "~1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "~3.2.0",
+    "jshint": "~2.9.4"
+  },
+  "scripts": {
+    "pretest": "./node_modules/jshint/bin/jshint index.js",
+    "test": "echo 'todo'"
+  },
+  "keywords": [
+    "verdaccio",
+    "auth",
+    "plugin",
+    "ldap"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT"
+}
