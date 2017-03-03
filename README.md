@@ -1,3 +1,6 @@
+# verdaccio-ldap [![Build Status](https://travis-ci.org/Alexandre-io/verdaccio-ldap.svg?branch=master)](https://travis-ci.org/Alexandre-io/verdaccio-ldap) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b15683d154d44347bccc4360d48436a7)](https://www.codacy.com/app/alexandre_io/verdaccio-ldap?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Alexandre-io/verdaccio-ldap&amp;utm_campaign=Badge_Grade) [![Greenkeeper badge](https://badges.greenkeeper.io/Alexandre-io/verdaccio-ldap.svg)](https://greenkeeper.io/)
+
+`verdaccio-ldap` is a fork of `sinopia-ldap`. It aims to keep backwards compatibility with `sinopia`, while keeping up with npm changes.
 
 ## Installation
 
