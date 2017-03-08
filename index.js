@@ -3,6 +3,8 @@ var assert = require('assert');
 var LdapAuth = require('ldapauth-fork');
 var parseDN = require('ldapjs').parseDN;
 
+module.exports = Auth;
+
 function Auth(config, stuff) {
   var self = Object.create(Auth.prototype);
   self._users = {};
@@ -53,7 +55,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
           ldapUser.memberOf = [ldapUser.memberOf];
         }
         for (var i = 0; i < ldapUser.memberOf.length; i++) {
-          groups.push('%' + parseDN(ldapUser.memberOf[i]).rdns[0][self._config.groupNameAttribute]);
+          groups.push(parseDN(ldapUser.memberOf[i]).rdns[0].attrs[self._config.groupNameAttribute].value);
         }
       }
     }
@@ -70,5 +72,3 @@ Auth.prototype.authenticate = function (user, password, callback) {
 
   });
 };
-
-module.exports = Auth;
