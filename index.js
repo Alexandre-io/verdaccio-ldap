@@ -3,8 +3,6 @@ var assert = require('assert');
 var LdapAuth = require('ldapauth-fork');
 var parseDN = require('ldapjs').parseDN;
 
-module.exports = Auth;
-
 function Auth(config, stuff) {
   var self = Object.create(Auth.prototype);
   self._users = {};
@@ -20,6 +18,8 @@ function Auth(config, stuff) {
 
   return self;
 }
+
+module.exports = Auth;
 
 //
 // Attempt to authenticate user against LDAP backend
