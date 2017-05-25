@@ -8,7 +8,7 @@
     "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
   },
   "dependencies": {
-    "ldapauth-fork": "~3.0.0",
+    "ldapauth-fork": "~4.0.0",
     "ldapjs": "~1.0.1"
   },
   "devDependencies": {
