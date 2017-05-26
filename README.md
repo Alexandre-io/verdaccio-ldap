@@ -4,6 +4,8 @@
 
 ## Installation
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b15683d154d44347bccc4360d48436a7)](https://www.codacy.com/app/alexandre_io/verdaccio-ldap?utm_source=github.com&utm_medium=referral&utm_content=Alexandre-io/verdaccio-ldap&utm_campaign=badger)
+
 ```sh
 $ npm install verdaccio
 $ npm install verdaccio-ldap
