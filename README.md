@@ -4,6 +4,8 @@
 
 ## Installation
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Alexandre-io/verdaccio-ldap.svg)](https://greenkeeper.io/)
+
 ```sh
 $ npm install verdaccio
 $ npm install verdaccio-ldap
