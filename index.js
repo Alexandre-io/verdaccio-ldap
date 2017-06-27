@@ -13,6 +13,9 @@ function Auth(config, stuff) {
   // verdaccio logger
   self._logger = stuff.logger;
 
+  // pass verdaccio logger to ldapauth
+  self._config.client_options.log = stuff.logger;
+
   // TODO: Set more defaults
   self._config.groupNameAttribute = self._config.groupNameAttribute || 'cn';
 
