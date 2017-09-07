@@ -1,11 +1,11 @@
 {
-  "name": "verdaccio-ldap",
+  "name": "verdaccio-ldap-fork",
   "version": "1.2.0",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
+    "url": "git@github.com:larrabee/verdaccio-ldap.git"
   },
   "dependencies": {
     "ldapauth-fork": "~4.0.0",
