@@ -58,7 +58,10 @@ Auth.prototype.authenticate = function (user, password, callback) {
           ldapUser.memberOf = [ldapUser.memberOf];
         }
         for (var i = 0; i < ldapUser.memberOf.length; i++) {
-          groups.push(parseDN(ldapUser.memberOf[i]).rdns[0].attrs[self._config.groupNameAttribute].value);
+          var attrs = parseDN(ldapUser.memberOf[i]).rdns[0].attrs;
+          if (attrs[self._config.groupNameAttribute] && attrs[self._config.groupNameAttribute].value !== undefined) {
+            groups.push(attrs[self._config.groupNameAttribute].value);
+          }
         }
       }
     }
