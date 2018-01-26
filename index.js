@@ -31,30 +31,30 @@ Auth.prototype.authenticate = function (user, password, callback) {
   const LdapClient = new LdapAuth(this._config.client_options);
 
   LdapClient.authenticateAsync(user, password)
-  .then((ldapUser) => {
-    if (!ldapUser) return [];
+    .then((ldapUser) => {
+      if (!ldapUser) return [];
 
-    return [
-      ldapUser.cn,
-      ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : []
-    ];
-  })
-  .catch((err) => {
-    // 'No such user' is reported via error
-    this._logger.warn({
-      user: user,
-      err: err,
-    }, 'LDAP error @{err}');
-
-    return false; // indicates failure
-  })
-  .finally(() => {
-    return LdapClient.closeAsync()
-    .catch((err) => {
-      this._logger.warn({
-        err: err
-      }, 'LDAP error on close @{err}');
+      return [
+        ldapUser.cn,
+        ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : []
+      ];
     })
-  })
-  .asCallback(callback);
+    .catch((err) => {
+      // 'No such user' is reported via error
+      this._logger.warn({
+        user: user,
+        err: err,
+      }, 'LDAP error @{err}');
+
+      return false; // indicates failure
+    })
+    .finally(() => {
+      return LdapClient.closeAsync()
+        .catch((err) => {
+          this._logger.warn({
+            err: err
+          }, 'LDAP error on close @{err}');
+        });
+    })
+    .asCallback(callback);
 };
