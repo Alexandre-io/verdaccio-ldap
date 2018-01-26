@@ -1,10 +1,10 @@
-var crypto = require('crypto');
-var assert = require('assert');
-var LdapAuth = require('ldapauth-fork');
-var parseDN = require('ldapjs').parseDN;
+const Promise = require('bluebird');
+const LdapAuth = require('ldapauth-fork');
+
+Promise.promisifyAll(LdapAuth.prototype);
 
 function Auth(config, stuff) {
-  var self = Object.create(Auth.prototype);
+  const self = Object.create(Auth.prototype);
   self._users = {};
 
   // config for this module
@@ -28,53 +28,33 @@ module.exports = Auth;
 // Attempt to authenticate user against LDAP backend
 //
 Auth.prototype.authenticate = function (user, password, callback) {
-  var self = this;
-  var LdapClient = new LdapAuth(self._config.client_options);
+  const LdapClient = new LdapAuth(this._config.client_options);
 
-  LdapClient.authenticate(user, password, function (err, ldapUser) {
-    if (err) {
-      // 'No such user' is reported via error
-      self._logger.warn({
-        user: user,
-        err: err,
-      }, 'LDAP error @{err}');
+  LdapClient.authenticateAsync(user, password)
+  .then((ldapUser) => {
+    if (!ldapUser) return [];
 
-      LdapClient.close(function (err) {
-        if (err) {
-          self._logger.warn({
-            err: err
-          }, 'LDAP error on close @{err}');
-        }
-      });
+    return [
+      ldapUser.cn,
+      ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : []
+    ];
+  })
+  .catch((err) => {
+    // 'No such user' is reported via error
+    this._logger.warn({
+      user: user,
+      err: err,
+    }, 'LDAP error @{err}');
 
-      return callback(null, false);
-    }
-
-    var groups;
-    if (ldapUser) {
-      groups = [user];
-      if ('memberOf' in ldapUser) {
-        if (!Array.isArray(ldapUser.memberOf)) {
-          ldapUser.memberOf = [ldapUser.memberOf];
-        }
-        for (var i = 0; i < ldapUser.memberOf.length; i++) {
-          var attrs = parseDN(ldapUser.memberOf[i]).rdns[0].attrs;
-          if (attrs[self._config.groupNameAttribute] && attrs[self._config.groupNameAttribute].value !== undefined) {
-            groups.push(attrs[self._config.groupNameAttribute].value);
-          }
-        }
-      }
-    }
-
-    callback(null, groups);
-
-    LdapClient.close(function (err) {
-      if (err) {
-        self._logger.warn({
-          err: err
-        }, 'LDAP error on close @{err}');
-      }
-    });
-
-  });
+    return false; // indicates failure
+  })
+  .finally(() => {
+    return LdapClient.closeAsync()
+    .catch((err) => {
+      this._logger.warn({
+        err: err
+      }, 'LDAP error on close @{err}');
+    })
+  })
+  .asCallback(callback);
 };

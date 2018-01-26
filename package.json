@@ -8,12 +8,12 @@
     "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
   },
   "dependencies": {
-    "ldapauth-fork": "~4.0.2",
-    "ldapjs": "~1.0.1"
+    "bluebird": "^3.5.1",
+    "ldapauth-fork": "~4.0.2"
   },
   "devDependencies": {
-    "mocha": "~4.1.0",
-    "jshint": "~2.9.5"
+    "jshint": "~2.9.5",
+    "mocha": "~4.1.0"
   },
   "scripts": {
     "pretest": "./node_modules/jshint/bin/jshint index.js",
@@ -25,6 +25,9 @@
     "plugin",
     "ldap"
   ],
+  "engines": {
+    "node": ">= 6"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

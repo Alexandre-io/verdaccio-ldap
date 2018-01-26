@@ -17,19 +17,20 @@ Add to your `config.yaml`:
 auth:
   ldap:
     type: ldap
-    groupNameAttribute: 'cn'
     client_options:
       url: "ldaps://ldap.example.com"
+      # Only required if you need auth to bind
       adminDn: "cn=admin,dc=example,dc=com"
       adminPassword: "admin"
+      # Search base for users
       searchBase: "ou=People,dc=example,dc=com"
       searchFilter: "(uid={{username}})"
+      # If you are using groups, this is also needed
+      groupDnProperty: 'cn',
+      groupSearchBase: 'ou=groups,dc=myorg,dc=com',
+      groupSearchFilter: '(memberUid={{dn}})',
+      # Optional
       cache: False
-      searchAttributes:
-        - "*"
-        - memberOf
-      tlsOptions:
-        rejectUnauthorized: False
 ```
 
 ## For plugin writers
@@ -50,20 +51,20 @@ Where:
 This should export two functions:
 
  - `adduser(user, password, cb)`
-   
+
    It should respond with:
     - `cb(err)` in case of an error (error will be returned to user)
     - `cb(null, false)` in case registration is disabled (next auth plugin will be executed)
     - `cb(null, true)` in case user registered successfully
-   
+
    It's useful to set `err.status` property to set http status code (e.g. `err.status = 403`).
 
  - `authenticate(user, password, cb)`
-   
+
    It should respond with:
     - `cb(err)` in case of a fatal error (error will be returned to user, keep those rare)
     - `cb(null, false)` in case user not authenticated (next auth plugin will be executed)
     - `cb(null, [groups])` in case user is authenticated
-   
+
    Groups is an array of all users/usergroups this user has access to. You should probably include username itself here.
-   
+
