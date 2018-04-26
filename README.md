@@ -28,7 +28,10 @@ auth:
       # If you are using groups, this is also needed
       groupDnProperty: 'cn',
       groupSearchBase: 'ou=groups,dc=myorg,dc=com',
-      groupSearchFilter: '(memberUid={{dn}})',
+      # If you have memberOf support on your ldap
+      searchAttributes: ['*', 'memberOf']
+      # Else, if you don't (use one or the other):
+      # groupSearchFilter: '(memberUid={{dn}})'
       # Optional
       cache: False
 ```

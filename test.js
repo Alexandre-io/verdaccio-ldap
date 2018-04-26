@@ -1,4 +1,6 @@
 const Auth = require('./index');
+const bunyan = require('bunyan');
+const log = bunyan.createLogger({name: 'myapp'});
 
 const auth = new Auth({
   client_options: {
@@ -7,9 +9,12 @@ const auth = new Auth({
     searchFilter: '(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))',
     groupDnProperty: 'cn',
     groupSearchBase: 'ou=groups,dc=myorg,dc=com',
-    groupSearchFilter: '(memberUid={{dn}})',
+    // If you have memberOf:
+    searchAttributes: ['*', 'memberOf'],
+    // Else, if you don't:
+    // groupSearchFilter: '(memberUid={{dn}})',
   }
-}, {logger: console})
+}, {logger: log})
 
 auth.authenticate('user', 'password', function(err, results) {
   console.log(`err: ${err}, groups: ${results}`);
