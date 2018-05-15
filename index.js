@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+const rfc2253 = require('rfc2253');
 const LdapAuth = require('ldapauth-fork');
 
 Promise.promisifyAll(LdapAuth.prototype);
@@ -36,7 +37,8 @@ Auth.prototype.authenticate = function (user, password, callback) {
 
       return [
         ldapUser.cn,
-        ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : []
+        ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : [],
+        ...ldapUser.memberOf ? ldapUser.memberOf.map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
       ];
     })
     .catch((err) => {
