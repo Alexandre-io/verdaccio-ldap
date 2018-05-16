@@ -34,7 +34,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
   LdapClient.authenticateAsync(user, password)
     .then((ldapUser) => {
       if (!ldapUser) return [];
-
+      
       return [
         ldapUser.cn,
         ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : [],
@@ -46,17 +46,22 @@ Auth.prototype.authenticate = function (user, password, callback) {
       this._logger.warn({
         user: user,
         err: err,
-      }, 'LDAP error @{err}');
+      }, `LDAP error ${err}`);
 
       return false; // indicates failure
     })
     .finally(() => {
-      return LdapClient.closeAsync()
-        .catch((err) => {
-          this._logger.warn({
-            err: err
-          }, 'LDAP error on close @{err}');
-        });
+      /*
+       * LdapClient.closeAsync doesn't work with node 10.x
+       * 
+       * return LdapClient.closeAsync()
+       *    .catch((err) => {
+       *      this._logger.warn({
+       *        err: err
+       *      }, 'LDAP error on close @{err}');
+       *  });
+       */
+      return LdapClient.close(callback);        
     })
     .asCallback(callback);
 };
