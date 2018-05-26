@@ -50,7 +50,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
 
       return false; // indicates failure
     })
-    .finally(() => {
+    .finally((ldapUser) => {
       /*
        * LdapClient.closeAsync doesn't work with node 10.x
        * 
@@ -61,7 +61,8 @@ Auth.prototype.authenticate = function (user, password, callback) {
        *      }, 'LDAP error on close @{err}');
        *  });
        */
-      return LdapClient.close(callback);        
+      LdapClient.close();
+      return ldapUser;
     })
     .asCallback(callback);
 };
