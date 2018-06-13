@@ -37,8 +37,9 @@ Auth.prototype.authenticate = function (user, password, callback) {
       
       return [
         ldapUser.cn,
-        ...ldapUser._groups ? ldapUser._groups.map((group) => group.cn) : [],
-        ...ldapUser.memberOf ? ldapUser.memberOf.map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
+        // _groups or memberOf could be single els or arrays.
+        ...ldapUser._groups ? [].concat(ldapUser._groups).map((group) => group.cn) : [],
+        ...ldapUser.memberOf ? [].concat(ldapUser.memberOf).map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
       ];
     })
     .catch((err) => {
