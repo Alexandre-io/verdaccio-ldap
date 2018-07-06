@@ -62,13 +62,8 @@ Auth.prototype.authenticate = function (user, password, callback) {
        *      }, 'LDAP error on close @{err}');
        *  });
        */
-      try {
+      if(ldapUser) {
         LdapClient.close();
-      }
-      catch (err) {
-        this._logger.warn({
-          err: err
-        }, `LDAP error on close ${err}`);
       }
       return ldapUser;
     })
