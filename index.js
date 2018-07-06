@@ -34,7 +34,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
   LdapClient.authenticateAsync(user, password)
     .then((ldapUser) => {
       if (!ldapUser) return [];
-      
+
       return [
         ldapUser.cn,
         // _groups or memberOf could be single els or arrays.
@@ -62,7 +62,14 @@ Auth.prototype.authenticate = function (user, password, callback) {
        *      }, 'LDAP error on close @{err}');
        *  });
        */
-      LdapClient.close();
+      try {
+        LdapClient.close();
+      }
+      catch (err) {
+        this._logger.warn({
+          err: err
+        }, `LDAP error on close ${err}`);
+      }
       return ldapUser;
     })
     .asCallback(callback);
