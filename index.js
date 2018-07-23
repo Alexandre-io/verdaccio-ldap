@@ -100,7 +100,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
     .asCallback(callback);
 };
 
-Auth.prototype.authenticate = function (user, password, callback) {
+Auth.prototype.adduser = function (user, password, callback) {
   this._logger.trace('[ldap] adduser called for user:', user);
   return callback(null, true);
 }
