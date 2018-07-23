@@ -109,7 +109,7 @@ Auth.prototype._getCachedUserGroups = function (username, password) {
 };
 
 Auth.prototype._setCachedUserGroups = function (username, password, groups) {
-  return this._authCache && this._authCache.storeUser(username, password, { username: username, groups: groups });
+  return this._authCache && this._authCache.storeUser(username, password, { username, groups });
 };
 
 module.exports = Auth;

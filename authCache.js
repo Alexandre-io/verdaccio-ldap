@@ -30,7 +30,7 @@ AuthCache.prototype.storeUser = function (username, password, userData) {
 
 AuthCache.prototype._generateKeyHash = function (username, password) {
   const sha = Crypto.createHash('sha256');
-  sha.update(JSON.stringify({ username: username, password: password }));
+  sha.update(JSON.stringify({ username, password }));
   return sha.digest('hex');
 };
 
