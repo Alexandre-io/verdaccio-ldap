@@ -25,7 +25,7 @@ function Auth(config, stuff) {
   if ((self._config._authCache || {}).enabled === false) {
     self._logger.info('[ldap] auth cache disabled');
   } else {
-    const ttl = (self._config._authCache || {}).ttl || AuthCache.prototype.DEFAULT_TTL;
+    const ttl = (self._config.authCache || {}).ttl || AuthCache.prototype.DEFAULT_TTL;
     self._authCache = new AuthCache(self._logger, ttl);
 
     self._logger.info('[ldap] initialized auth cache with ttl:', ttl, 'seconds');
