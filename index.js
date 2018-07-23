@@ -100,6 +100,11 @@ Auth.prototype.authenticate = function (user, password, callback) {
     .asCallback(callback);
 };
 
+Auth.prototype.authenticate = function (user, password, callback) {
+  this._logger.trace('[ldap] adduser called for user:', user);
+  return callback(null, true);
+}
+
 Auth.prototype._getCachedUserGroups = function (username, password) {
   if (!this._authCache) {
     return null;
