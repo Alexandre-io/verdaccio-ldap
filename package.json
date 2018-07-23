@@ -3,6 +3,9 @@
   "version": "2.1.3",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
+  "contributor": [
+    "Dimitri Alexander Kopriwa <dimitri.kopriwa@yeutech.vn> (https://github.com/kopax)"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
@@ -10,6 +13,7 @@
   "dependencies": {
     "bluebird": "~3.5.1",
     "ldapauth-fork": "~4.0.2",
+    "node-cache": "^4.2.0",
     "rfc2253": "~0.1.1"
   },
   "devDependencies": {
