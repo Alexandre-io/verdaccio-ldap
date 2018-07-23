@@ -13,8 +13,8 @@ function AuthCache(logger, ttl) {
   });
   var self = this;
   this._storage.on('expired', function (key, value) {
-    if (self.logger.trace()) {
-      self.logger.trace('[ldap] expired key:', key, 'with value:', value);
+    if (self._logger.trace()) {
+      self._logger.trace('[ldap] expired key:', key, 'with value:', value);
     }
   });
 }
