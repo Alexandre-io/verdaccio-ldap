@@ -31,6 +31,9 @@ module.exports = Auth;
 Auth.prototype.authenticate = function (user, password, callback) {
   const LdapClient = new LdapAuth(this._config.client_options);
 
+  // https://github.com/vesse/node-ldapauth-fork/issues/61
+  LdapClient.on('error', (err) => {});
+
   LdapClient.authenticateAsync(user, password)
     .then((ldapUser) => {
       if (!ldapUser) return [];
@@ -52,19 +55,12 @@ Auth.prototype.authenticate = function (user, password, callback) {
       return false; // indicates failure
     })
     .finally((ldapUser) => {
-      /*
-       * LdapClient.closeAsync doesn't work with node 10.x
-       * 
-       * return LdapClient.closeAsync()
-       *    .catch((err) => {
-       *      this._logger.warn({
-       *        err: err
-       *      }, 'LDAP error on close @{err}');
-       *  });
-       */
-      if (ldapUser) {
-        LdapClient.close();
-      }
+      LdapClient.closeAsync()
+        .catch((err) => {
+          this._logger.warn({
+            err: err
+          }, `LDAP error on close ${err}`);
+        });
       return ldapUser;
     })
     .asCallback(callback);
