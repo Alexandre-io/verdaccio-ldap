@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-ldap",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
   "repository": {
@@ -20,7 +20,7 @@
     "mocha": "~5.2.0"
   },
   "scripts": {
-    "pretest": "./node_modules/jshint/bin/jshint index.js",
+    "pretest": "./node_modules/jshint/bin/jshint .",
     "test": "mocha --exit tests/bootstrap.spec.js tests/**/*.spec.js"
   },
   "keywords": [

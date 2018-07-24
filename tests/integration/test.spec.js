@@ -1,7 +1,7 @@
 const Auth = require('../../index');
 const should = require('chai').should();
 const bunyan = require('bunyan');
-const log = bunyan.createLogger({name: 'myapp'});
+const log = bunyan.createLogger({ name: 'myapp' });
 
 
 const auth = new Auth({
@@ -16,11 +16,11 @@ const auth = new Auth({
     // Else, if you don't:
     // groupSearchFilter: '(memberUid={{dn}})',
   }
-}, {logger: log});
+}, { logger: log });
 
-describe('ldap auth', function() {
-  it('should match user', function(done) {
-    auth.authenticate('user', 'password', function(err, results) {
+describe('ldap auth', function () {
+  it('should match user', function (done) {
+    auth.authenticate('user', 'password', function (err, results) {
       (err === null).should.be.true;
       results[0].should.equal('user');
       done();

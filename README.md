@@ -32,8 +32,11 @@ auth:
       searchAttributes: ['*', 'memberOf']
       # Else, if you don't (use one or the other):
       # groupSearchFilter: '(memberUid={{dn}})'
+      # 
+      # Optional, default false. If true, then up to 100 credentials at a time will be cached for 5 minutes.
+      cache: false
       # Optional
-      cache: False
+      reconnect: true
 ```
 
 ## For plugin writers
@@ -70,4 +73,4 @@ This should export two functions:
     - `cb(null, [groups])` in case user is authenticated
 
    Groups is an array of all users/usergroups this user has access to. You should probably include username itself here.
-
+   
