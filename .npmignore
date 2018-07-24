@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.DS_Store
+.idea
+.travis.yml
+.jshintrc
+.editorconfig
+/tests
+Dockerfile
