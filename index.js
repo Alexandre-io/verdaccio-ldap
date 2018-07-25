@@ -20,6 +20,7 @@ function Auth(config, stuff) {
   // TODO: Set more defaults
   self._config.groupNameAttribute = self._config.groupNameAttribute || 'cn';
 
+  self._ldapClient = new LdapAuth(self._config.client_options);
   return self;
 }
 
@@ -29,12 +30,11 @@ module.exports = Auth;
 // Attempt to authenticate user against LDAP backend
 //
 Auth.prototype.authenticate = function (user, password, callback) {
-  const LdapClient = new LdapAuth(this._config.client_options);
-
+  const self = this;
   // https://github.com/vesse/node-ldapauth-fork/issues/61
-  LdapClient.on('error', (err) => {});
+  self._ldapClient.on('error', (err) => {});
 
-  LdapClient.authenticateAsync(user, password)
+  self._ldapClient.authenticateAsync(user, password)
     .then((ldapUser) => {
       if (!ldapUser) return [];
 
@@ -55,7 +55,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
       return false; // indicates failure
     })
     .finally((ldapUser) => {
-      LdapClient.closeAsync()
+      self._ldapClient.closeAsync()
         .catch((err) => {
           this._logger.warn({
             err: err
