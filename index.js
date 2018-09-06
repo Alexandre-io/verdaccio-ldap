@@ -8,7 +8,7 @@ function Auth(config, stuff) {
   const self = Object.create(Auth.prototype);
   self._users = {};
   // default cache time is 3 minutes
-  self.cacheTime = config.cacheTime || 1000 * 60 * 3
+  self.cacheTime = config.cacheTime || 1000 * 60 * 3;
 
   // config for this module
   self._config = config;
@@ -40,11 +40,10 @@ module.exports = Auth;
 // Attempt to authenticate user against LDAP backend
 //
 Auth.prototype.authenticate = function (user, password, callback) {
-  var cache = this.getCacheUser(user)
+  var cache = this.getCacheUser(user);
   if(cache) {
-    return callback(null, cache)
+    return callback(null, cache);
   }
-  console.log('===== ldap auth check ======')
   this._ldapClient.authenticateAsync(user, password)
     .then((ldapUser) => {
       if (!ldapUser) return [];
@@ -54,10 +53,10 @@ Auth.prototype.authenticate = function (user, password, callback) {
         ...ldapUser._groups ? [].concat(ldapUser._groups).map((group) => group.cn) : [],
         ...ldapUser.memberOf ? [].concat(ldapUser.memberOf).map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
       ];
-      if(!!this.cacheTime) {
-        this.setCacheUser(user, res)
+      if(this.cacheTime) {
+        this.setCacheUser(user, res);
       }
-      return res
+      return res;
     })
     .catch((err) => {
       // 'No such user' is reported via error
@@ -73,24 +72,24 @@ Auth.prototype.authenticate = function (user, password, callback) {
 
 Auth.prototype.getCacheUser = function(user) {
   if(!this._users[user]) {
-    return null
+    return null;
   }
-  var cacheUser = this._users[user]
+  var cacheUser = this._users[user];
   if(Date.now() > cacheUser.expiredTime) {
-    delete this._users[user]
-    return null
+    delete this._users[user];
+    return null;
   }
-  this.setCacheUser(user, cacheUser.data)
-  return cacheUser.data
-}
+  this.setCacheUser(user, cacheUser.data);
+  return cacheUser.data;
+};
 
 Auth.prototype.setCacheUser = function(user, data) {
   this._users[user] = {
-    data: data,
+    data,
     expiredTime: Date.now() + this.cacheTime
-  }
-}
+  };
+};
 
 Auth.prototype.clearCacheUser = function() {
-  this._users = {}
-}
+  this._users = {};
+};
