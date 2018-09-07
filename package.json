@@ -8,6 +8,7 @@
     "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bluebird": "~3.5.1",
     "ldapauth-fork": "~4.0.2",
     "rfc2253": "~0.1.1"
