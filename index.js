@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 const rfc2253 = require('rfc2253');
 const LdapAuth = require('ldapauth-fork');
 const Cache = require('ldapauth-fork/lib/cache');
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 Promise.promisifyAll(LdapAuth.prototype);
 
@@ -43,7 +43,9 @@ Auth.prototype.authenticate = function (username, password, callback) {
   if (this._config.cache) {
     const cached = this._userCache.get(username);
     if (cached && bcrypt.compareSync(password, cached.password)) {
-      return callback(null, authenticatedUserGroups(cached.user));
+      const userGroups = authenticatedUserGroups(cached.user);
+      userGroups.cacheHit = true;
+      return callback(null, userGroups);
     }
   }
 
@@ -88,9 +90,9 @@ Auth.prototype.authenticate = function (username, password, callback) {
 
 function authenticatedUserGroups(user) {
   return [
-      user.cn,
-      // _groups or memberOf could be single els or arrays.
-      ...user._groups ? [].concat(user._groups).map((group) => group.cn) : [],
-      ...user.memberOf ? [].concat(user.memberOf).map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
+    user.cn,
+    // _groups or memberOf could be single els or arrays.
+    ...user._groups ? [].concat(user._groups).map((group) => group.cn) : [],
+    ...user.memberOf ? [].concat(user.memberOf).map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
   ];
 }
