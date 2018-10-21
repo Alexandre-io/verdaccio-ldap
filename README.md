@@ -9,6 +9,8 @@ $ npm install verdaccio
 $ npm install verdaccio-ldap
 ```
 
+> A detailed example of the verdaccio-ldap plugin + OpenLDAP server packed in Docker is available [here](https://github.com/verdaccio/docker-examples/tree/master/ldap-verdaccio).
+
 ## Config
 
 Add to your `config.yaml`:
