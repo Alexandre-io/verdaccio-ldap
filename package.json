@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-ldap",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
   "repository": {
@@ -8,14 +8,14 @@
     "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
   },
   "dependencies": {
-    "bluebird": "~3.5.1",
-    "ldapauth-fork": "~4.0.2",
+    "bluebird": "~3.5.2",
+    "ldapauth-fork": "~4.1.0",
     "rfc2253": "~0.1.1"
   },
   "devDependencies": {
     "bunyan": "~1.8.12",
-    "chai": "~4.1.2",
-    "jshint": "~2.9.5",
+    "chai": "~4.2.0",
+    "jshint": "~2.9.6",
     "ldap-server-mock": "~2.0.0",
     "mocha": "~5.2.0"
   },
