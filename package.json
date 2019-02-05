@@ -15,7 +15,7 @@
   "devDependencies": {
     "bunyan": "~1.8.12",
     "chai": "~4.2.0",
-    "jshint": "~2.9.6",
+    "jshint": "~2.10.0",
     "ldap-server-mock": "~2.0.0",
     "mocha": "~5.2.0"
   },
