@@ -35,20 +35,6 @@ function Auth(config, stuff) {
 module.exports = Auth;
 
 //
-// Convert each of the user group search results into a group name string
-//
-Auth.prototype.getGroupForGroup = function (group) {
-  return group[this._config.groupNameAttribute];
-};
-
-//
-// Convert each user.memberOf into a group name string
-//
-Auth.prototype.getGroupForMemberOf = function (groupDn) {
-  return rfc2253.parse(groupDn).get('CN');
-};
-
-//
 // Attempt to authenticate user against LDAP backend
 //
 Auth.prototype.authenticate = function (user, password, callback) {
@@ -60,8 +46,8 @@ Auth.prototype.authenticate = function (user, password, callback) {
       return [
         ldapUser.cn,
         // _groups or memberOf could be single els or arrays.
-        ...ldapUser._groups ? [].concat(ldapUser._groups).map(this.getGroupForGroup) : [],
-        ...ldapUser.memberOf ? [].concat(ldapUser.memberOf).map(this.getGroupForMemberOf) : [],
+        ...ldapUser._groups ? [].concat(ldapUser._groups).map((group) => group[this._config.groupNameAttribute]) : [],
+        ...ldapUser.memberOf ? [].concat(ldapUser.memberOf).map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
       ];
     })
     .catch((err) => {
