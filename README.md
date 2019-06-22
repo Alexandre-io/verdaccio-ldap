@@ -19,6 +19,8 @@ Add to your `config.yaml`:
 auth:
   ldap:
     type: ldap
+    # Only required if you are fetching groups that do not have a "cn" property. defaults to "cn"
+    groupNameAttribute: "ou"
     client_options:
       url: "ldaps://ldap.example.com"
       # Only required if you need auth to bind
@@ -34,7 +36,7 @@ auth:
       searchAttributes: ['*', 'memberOf']
       # Else, if you don't (use one or the other):
       # groupSearchFilter: '(memberUid={{dn}})'
-      # 
+      #
       # Optional, default false.
       # If true, then up to 100 credentials at a time will be cached for 5 minutes.
       cache: false
@@ -76,4 +78,4 @@ This should export two functions:
     - `cb(null, [groups])` in case user is authenticated
 
    Groups is an array of all users/usergroups this user has access to. You should probably include username itself here.
-   
+

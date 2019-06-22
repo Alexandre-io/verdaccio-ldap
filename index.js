@@ -22,7 +22,7 @@ function Auth(config, stuff) {
 
   // ldap client
   self._ldapClient = new LdapAuth(self._config.client_options);
-  
+
   self._ldapClient.on('error', (err) => {
     self._logger.warn({
       err: err,
@@ -46,7 +46,7 @@ Auth.prototype.authenticate = function (user, password, callback) {
       return [
         ldapUser.cn,
         // _groups or memberOf could be single els or arrays.
-        ...ldapUser._groups ? [].concat(ldapUser._groups).map((group) => group.cn) : [],
+        ...ldapUser._groups ? [].concat(ldapUser._groups).map((group) => group[this._config.groupNameAttribute]) : [],
         ...ldapUser.memberOf ? [].concat(ldapUser.memberOf).map((groupDn) => rfc2253.parse(groupDn).get('CN')) : [],
       ];
     })
