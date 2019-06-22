@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-ldap",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "bluebird": "~3.5.2",
-    "ldapauth-fork": "~4.1.1",
+    "ldapauth-fork": "~4.2.0",
     "rfc2253": "~0.1.1"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "ldap"
   ],
   "engines": {
-    "node": ">= 6"
+    "node": ">= 8"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
