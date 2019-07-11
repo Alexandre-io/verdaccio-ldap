@@ -21,6 +21,12 @@ auth:
     type: ldap
     # Only required if you are fetching groups that do not have a "cn" property. defaults to "cn"
     groupNameAttribute: "ou"
+    # Optional, default false.
+    cache:
+      # max credentials to cache (default to 100 if cache is enabled)
+      size: 100
+      # cache expiration in seconds (default to 300 if cache is enabled)
+      expire: 300
     client_options:
       url: "ldaps://ldap.example.com"
       # Only required if you need auth to bind
@@ -36,10 +42,6 @@ auth:
       searchAttributes: ['*', 'memberOf']
       # Else, if you don't (use one or the other):
       # groupSearchFilter: '(memberUid={{dn}})'
-      #
-      # Optional, default false.
-      # If true, then up to 100 credentials at a time will be cached for 5 minutes.
-      cache: false
       # Optional
       reconnect: true
 ```
