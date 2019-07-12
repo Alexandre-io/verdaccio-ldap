@@ -8,6 +8,7 @@
     "url": "git://github.com/Alexandre-io/verdaccio-ldap.git"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bluebird": "~3.5.2",
     "ldapauth-fork": "~4.2.0",
     "rfc2253": "~0.1.1"
@@ -20,7 +21,7 @@
     "mocha": "~6.1.0"
   },
   "scripts": {
-    "pretest": "./node_modules/jshint/bin/jshint .",
+    "pretest": "jshint .",
     "test": "mocha --exit tests/bootstrap.spec.js tests/**/*.spec.js"
   },
   "keywords": [
