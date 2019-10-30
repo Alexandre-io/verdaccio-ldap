@@ -1,3 +1,4 @@
+/* jshint expr:true */
 const Auth = require('../../index');
 const should = require('chai').should();
 const bunyan = require('bunyan');
@@ -56,6 +57,31 @@ describe('ldap auth', function () {
         results[0].should.equal('user');
         done();
       });
+    });
+  });
+
+  it('should return false and set cache', function (done) {
+    const auth = new Auth({
+      cache: true,
+      client_options: {
+        url: "ldap://localhost:4389",
+        searchBase: 'ou=users,dc=myorg,dc=com',
+        searchFilter: '(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))',
+        groupDnProperty: 'cn',
+        groupSearchBase: 'ou=groups,dc=myorg,dc=com',
+        // If you have memberOf:
+        searchAttributes: ['*', 'memberOf'],
+        // Else, if you don't:
+        // groupSearchFilter: '(memberUid={{dn}})',
+      }
+    }, { logger: log });
+
+    (auth._userCache.get('wronguser') !== null).should.be.false;
+    auth.authenticate('wronguser', 'password', function (err, results) {
+      (err === null).should.be.true;
+      results.should.be.false;
+      (auth._userCache.get('wronguser') !== null).should.be.true;
+      done();
     });
   });
 });
