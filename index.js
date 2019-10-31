@@ -53,10 +53,15 @@ Auth.prototype.authenticate = function (username, password, callback) {
 
   if (this._config.cache) {
     const cached = this._userCache.get(username);
-    if (cached && bcrypt.compareSync(password, cached.password)) {
-      const userGroups = authenticatedUserGroups(cached.user, this._config.groupNameAttribute);
-      userGroups.cacheHit = true;
-      return callback(null, userGroups);
+    if (cached) {
+      if (cached.error) {
+        return callback(null, false);
+      }
+      if (bcrypt.compareSync(password, cached.password)) {
+        const userGroups = authenticatedUserGroups(cached.user, this._config.groupNameAttribute);
+        userGroups.cacheHit = true;
+        return callback(null, userGroups);
+      }
     }
   }
 
@@ -83,6 +88,9 @@ Auth.prototype.authenticate = function (username, password, callback) {
     .catch((err) => {
       // 'No such user' is reported via error
       this._logger.warn({ username, err }, `verdaccio-ldap error ${err}`);
+      if (this._config.cache) {
+        this._userCache.set(username, { error: err });
+      }
       return false; // indicates failure
     })
     .finally(() => {
