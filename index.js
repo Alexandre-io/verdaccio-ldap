@@ -51,9 +51,13 @@ module.exports = Auth;
 //
 Auth.prototype.authenticate = function (username, password, callback) {
 
+  const hash = this.getHashByPasswordOrLogError(username, password);
   if (this._config.cache) {
-    const cached = this._userCache.get(username);
-    if (cached && bcrypt.compareSync(password, cached.password)) {
+    const cached = this._userCache.get(username + hash);
+    if (cached && cached.password && bcrypt.compareSync(password, cached.password)) {
+      if (cached.error) {
+        return callback(null, false);
+      }
       const userGroups = authenticatedUserGroups(cached.user, this._config.groupNameAttribute);
       userGroups.cacheHit = true;
       return callback(null, userGroups);
@@ -63,29 +67,28 @@ Auth.prototype.authenticate = function (username, password, callback) {
   // ldap client
   const ldapClient = new LdapAuth(this._config.client_options);
 
+  let currentUser;
+  let currentError;
+
   ldapClient.authenticateAsync(username, password)
     .then((user) => {
       if (!user) {
         return [];
       }
-
-      if (this._config.cache) {
-        try {
-          const hash = bcrypt.hashSync(password, this._salt);
-          this._userCache.set(username, { password: hash, user });
-        } catch(err) {
-          this._logger.warn({ username, err }, `verdaccio-ldap bcrypt hash error ${err}`);
-        }
-      }
+      currentUser = user;
 
       return authenticatedUserGroups(user, this._config.groupNameAttribute);
     })
     .catch((err) => {
+      currentError = err;
       // 'No such user' is reported via error
       this._logger.warn({ username, err }, `verdaccio-ldap error ${err}`);
       return false; // indicates failure
     })
     .finally(() => {
+      if (this._config.cache) {
+        this._userCache.set(username + hash, { password: hash, user: currentUser, error: currentError });
+      }
       // This will do nothing with Node 10 (https://github.com/joyent/node-ldapjs/issues/483)
       ldapClient.closeAsync()
         .catch((err) => {
@@ -97,4 +100,12 @@ Auth.prototype.authenticate = function (username, password, callback) {
   ldapClient.on('error', (err) => {
     this._logger.warn({ err }, `verdaccio-ldap error ${err}`);
   });
+};
+
+Auth.prototype.getHashByPasswordOrLogError = function(username, password) {
+  try {
+    return bcrypt.hashSync(password, this._salt);
+  } catch(err) {
+    this._logger.warn({ username, err }, `verdaccio-ldap bcrypt hash error ${err}`);
+  }
 };
