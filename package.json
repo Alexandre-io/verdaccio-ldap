@@ -10,7 +10,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bluebird": "~3.7.0",
-    "ldapauth-fork": "~4.2.0",
+    "ldapauth-fork": "~4.3.0",
     "rfc2253": "~0.1.1"
   },
   "devDependencies": {
