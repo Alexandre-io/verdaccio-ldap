@@ -38,8 +38,8 @@ auth:
       searchBase: "ou=People,dc=example,dc=com"
       searchFilter: "(uid={{username}})"
       # If you are using groups, this is also needed
-      groupDnProperty: 'cn',
-      groupSearchBase: 'ou=groups,dc=myorg,dc=com',
+      groupDnProperty: 'cn'
+      groupSearchBase: 'ou=groups,dc=myorg,dc=com'
       # If you have memberOf support on your ldap
       searchAttributes: ['*', 'memberOf']
       # Else, if you don't (use one or the other):
