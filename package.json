@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-ldap",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
   "repository": {

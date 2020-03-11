@@ -1,3 +1,6 @@
+# 4.0.1 / 2020-03-11
+- Update package-lock.json
+
 # 4.0.0 / 2019-06-22
 - Upgrade ldapauth-fork
 - Drop support NodeJS < 8.x
