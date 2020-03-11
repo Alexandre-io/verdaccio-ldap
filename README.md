@@ -30,7 +30,7 @@ auth:
       # cache expiration in seconds (default to 300 if cache is enabled)
       expire: 300
     client_options:
-      url: "ldaps://ldap.example.com"
+      url: "ldap://ldap.example.com"
       # Only required if you need auth to bind
       adminDn: "cn=admin,dc=example,dc=com"
       adminPassword: "admin"
