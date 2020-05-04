@@ -17,7 +17,7 @@
     "bunyan": "~1.8.12",
     "chai": "~4.2.0",
     "jshint": "~2.11.0",
-    "ldap-server-mock": "~2.0.0",
+    "ldap-server-mock": "~3.0.0",
     "mocha": "~7.1.0"
   },
   "scripts": {
