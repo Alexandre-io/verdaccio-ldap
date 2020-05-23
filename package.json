@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-ldap",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "LDAP auth plugin for verdaccio",
   "author": "Alexandre L.",
   "repository": {
@@ -9,20 +9,21 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "bluebird": "~3.7.0",
-    "ldapauth-fork": "~4.3.0",
+    "bluebird": "~3.7.2",
+    "ldapauth-fork": "~4.3.3",
     "rfc2253": "~0.1.1"
   },
   "devDependencies": {
     "bunyan": "~1.8.12",
     "chai": "~4.2.0",
-    "jshint": "~2.11.0",
-    "ldap-server-mock": "~2.0.0",
-    "mocha": "~7.2.0"
+    "jshint": "~2.11.1",
+    "ldap-server-mock": "~3.0.0",
+    "mocha": "~7.2.0",
+    "snyk": "^1.324.0"
   },
   "scripts": {
     "pretest": "jshint .",
-    "test": "mocha --exit tests/bootstrap.spec.js tests/**/*.spec.js"
+    "test": "snyk test && mocha --exit tests/bootstrap.spec.js tests/**/*.spec.js"
   },
   "keywords": [
     "verdaccio",
@@ -31,7 +32,7 @@
     "ldap"
   ],
   "engines": {
-    "node": ">= 8"
+    "node": ">= 12.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

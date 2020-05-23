@@ -1,3 +1,8 @@
+# 4.1.0 / 2020-05-23
+- Update dependencies
+- Drop support NodeJS < 12.4.0
+- Add snyk
+
 # 4.0.1 / 2020-03-11
 - Update package-lock.json
 
