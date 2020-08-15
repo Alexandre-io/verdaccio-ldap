@@ -1,3 +1,7 @@
+# 4.2.0 / 2020-08-15
+- Support using env to set adminPassword #79 (@secret104278)
+- Update dev. dependencies
+
 # 4.1.0 / 2020-05-23
 - Update dependencies
 - Drop support NodeJS < 12.4.0
