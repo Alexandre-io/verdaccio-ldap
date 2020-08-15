@@ -79,4 +79,47 @@ describe('ldap auth', function () {
       });
     });
   });
+
+  describe('test admin password', () => {
+    let config;
+    const password = '1234';
+    before(() => {
+      config = {
+        cache: true,
+        client_options: {
+          url: "ldap://localhost:4389",
+          searchBase: 'ou=users,dc=myorg,dc=com',
+          searchFilter: '(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))',
+          groupDnProperty: 'cn',
+          groupSearchBase: 'ou=groups,dc=myorg,dc=com',
+          // If you have memberOf:
+          searchAttributes: ['*', 'memberOf'],
+          // Else, if you don't:
+          // groupSearchFilter: '(memberUid={{dn}})',
+        }
+      };
+    });
+
+    it('should read password from config', function (done) {
+      config.client_options.adminPassword = password;
+      auth = new Auth(config, { logger: log });
+      auth._config.client_options.adminPassword.should.equal(password);
+      done()
+    })
+
+    it('should read password from env if exist', function(done) {
+      process.env.LDAP_ADMIN_PASS = password;
+      auth = new Auth(config, { logger: log });
+      auth._config.client_options.adminPassword.should.equal(password);
+      done()
+    })
+
+    it('should override password from env if exist', function(done) {
+      config.client_options.adminPassword = 'asdf';
+      process.env.LDAP_ADMIN_PASS = password;
+      auth = new Auth(config, { logger: log });
+      auth._config.client_options.adminPassword.should.equal(password);
+      done()
+    })
+  })
 });

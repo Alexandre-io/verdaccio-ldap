@@ -48,6 +48,10 @@ auth:
       reconnect: true
 ```
 
+### LDAP Admin Password
+If you run this plugin in k8s, you may want to set password by env with secretRef.
+You can use `LDAP_ADMIN_PASS` to set ldap admin password, it will override the one in `config.yaml`.
+
 ## For plugin writers
 
 It's called as:

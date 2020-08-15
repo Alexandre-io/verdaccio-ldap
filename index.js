@@ -4,6 +4,10 @@ const LdapAuth = require('ldapauth-fork');
 const Cache = require('ldapauth-fork/lib/cache');
 const bcrypt = require('bcryptjs');
 
+// environment variable name to set ldap admin password
+// Note: it will override the one in config file.
+const LDAP_ADMIN_PASS_ENV = 'LDAP_ADMIN_PASS';
+
 Promise.promisifyAll(LdapAuth.prototype);
 
 function authenticatedUserGroups(user, groupNameAttribute) {
@@ -39,6 +43,10 @@ function Auth(config, stuff) {
     const expire = typeof config.cache.expire === 'number' ? config.cache.expire : 300;
     self._userCache = new Cache(size, expire, stuff.logger, 'user');
     self._salt = bcrypt.genSaltSync();
+  }
+
+  if (LDAP_ADMIN_PASS_ENV in process.env) {
+    self._config.client_options.adminPassword = process.env[LDAP_ADMIN_PASS_ENV];
   }
 
   return self;
