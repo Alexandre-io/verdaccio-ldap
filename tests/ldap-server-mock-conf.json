@@ -1,6 +1,4 @@
 {
   "port": 4389,
-  "userLoginAttribute": "cn",
-  "searchBase": "ou=users,dc=myorg,dc=com",
-  "searchFilter": "(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))"
+  "searchBase": "ou=users,dc=myorg,dc=com"
 }

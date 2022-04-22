@@ -1,7 +1,9 @@
 [
   {
     "dn": "ou=users,dc=myorg,dc=com",
+    "objectClass": "person",
     "cn": "user",
+    "uid": "user",
     "attribute1": "value1",
     "attribute2": "value2"
   }

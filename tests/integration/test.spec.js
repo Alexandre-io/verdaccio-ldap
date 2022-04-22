@@ -12,7 +12,7 @@ describe('ldap auth', function () {
         client_options: {
           url: "ldap://localhost:4389",
           searchBase: 'ou=users,dc=myorg,dc=com',
-          searchFilter: '(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))',
+          searchFilter: '(&(objectClass=person)(!(shadowExpire=0))(uid={{username}}))',
           groupDnProperty: 'cn',
           groupSearchBase: 'ou=groups,dc=myorg,dc=com',
           // If you have memberOf:
@@ -39,7 +39,7 @@ describe('ldap auth', function () {
         client_options: {
           url: "ldap://localhost:4389",
           searchBase: 'ou=users,dc=myorg,dc=com',
-          searchFilter: '(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))',
+          searchFilter: '(&(objectClass=person)(!(shadowExpire=0))(uid={{username}}))',
           groupDnProperty: 'cn',
           groupSearchBase: 'ou=groups,dc=myorg,dc=com',
           // If you have memberOf:
@@ -89,7 +89,7 @@ describe('ldap auth', function () {
         client_options: {
           url: "ldap://localhost:4389",
           searchBase: 'ou=users,dc=myorg,dc=com',
-          searchFilter: '(&(objectClass=posixAccount)(!(shadowExpire=0))(uid={{username}}))',
+          searchFilter: '(&(objectClass=person)(!(shadowExpire=0))(uid={{username}}))',
           groupDnProperty: 'cn',
           groupSearchBase: 'ou=groups,dc=myorg,dc=com',
           // If you have memberOf:
