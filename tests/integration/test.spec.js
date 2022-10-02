@@ -10,7 +10,7 @@ describe('ldap auth', function () {
     before(() => {
       auth = new Auth({
         client_options: {
-          url: "ldap://localhost:4389",
+          url: "ldap://127.0.0.1:4389",
           searchBase: 'ou=users,dc=myorg,dc=com',
           searchFilter: '(&(objectClass=person)(!(shadowExpire=0))(uid={{username}}))',
           groupDnProperty: 'cn',
@@ -37,7 +37,7 @@ describe('ldap auth', function () {
       auth = new Auth({
         cache: true,
         client_options: {
-          url: "ldap://localhost:4389",
+          url: "ldap://127.0.0.1:4389",
           searchBase: 'ou=users,dc=myorg,dc=com',
           searchFilter: '(&(objectClass=person)(!(shadowExpire=0))(uid={{username}}))',
           groupDnProperty: 'cn',
@@ -68,13 +68,11 @@ describe('ldap auth', function () {
     it('should return false and set cache', function (done) {
       const user = 'wronguser';
       const password = 'password';
-      const hash = auth.getHashByPasswordOrLogError(user, password);
-      const key = user + hash;
-      (auth._userCache.get(key) !== null).should.be.false;
+      (auth._userCache.get(user) !== null).should.be.false;
       auth.authenticate(user, password, function (err, results) {
         (err === null).should.be.true;
         results.should.be.false;
-        (auth._userCache.get(key) !== null).should.be.true;
+        (auth._userCache.get(user) !== null).should.be.true;
         done();
       });
     });
@@ -87,7 +85,7 @@ describe('ldap auth', function () {
       config = {
         cache: true,
         client_options: {
-          url: "ldap://localhost:4389",
+          url: "ldap://127.0.0.1:4389",
           searchBase: 'ou=users,dc=myorg,dc=com',
           searchFilter: '(&(objectClass=person)(!(shadowExpire=0))(uid={{username}}))',
           groupDnProperty: 'cn',

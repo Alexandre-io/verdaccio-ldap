@@ -1,4 +1,4 @@
-# verdaccio-ldap [![Build Status](https://travis-ci.org/Alexandre-io/verdaccio-ldap.svg?branch=master)](https://travis-ci.org/Alexandre-io/verdaccio-ldap) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ada514a3f0af469882e0493c11a41e90)](https://www.codacy.com/gh/Alexandre-io/verdaccio-ldap/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Alexandre-io/verdaccio-ldap&amp;utm_campaign=Badge_Grade) [![Known Vulnerabilities](https://snyk.io/test/github/Alexandre-io/verdaccio-ldap/badge.svg)](https://snyk.io/test/github/Alexandre-io/verdaccio-ldap)
+# verdaccio-ldap [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ada514a3f0af469882e0493c11a41e90)](https://www.codacy.com/gh/Alexandre-io/verdaccio-ldap/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Alexandre-io/verdaccio-ldap&amp;utm_campaign=Badge_Grade) [![Known Vulnerabilities](https://snyk.io/test/github/Alexandre-io/verdaccio-ldap/badge.svg)](https://snyk.io/test/github/Alexandre-io/verdaccio-ldap)
 
 `verdaccio-ldap` is a fork of `sinopia-ldap`. It aims to keep backwards compatibility with `sinopia`, while keeping up with npm changes.
 
