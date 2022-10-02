@@ -1,3 +1,8 @@
+# 6.0.0 / 2022-10-02
+- Update npm dependencies
+- Cache: use md5 instead of bcryptjs
+- Remove travis ci & add github workflows
+
 # 5.0.0 / 2022-04-22
 - Update dependencies
 - Drop support NodeJS < 15
