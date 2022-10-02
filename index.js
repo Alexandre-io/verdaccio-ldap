@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 const rfc2253 = require('rfc2253');
 const LdapAuth = require('ldapauth-fork');
 const Cache = require('ldapauth-fork/lib/cache');
-const bcrypt = require('bcryptjs');
+const md5 = require('md5');
 
 // environment variable name to set ldap admin password
 // Note: it will override the one in config file.
@@ -42,7 +42,6 @@ function Auth(config, stuff) {
     const size = typeof config.cache.size === 'number' ? config.cache.size : 100;
     const expire = typeof config.cache.expire === 'number' ? config.cache.expire : 300;
     self._userCache = new Cache(size, expire, stuff.logger, 'user');
-    self._salt = bcrypt.genSaltSync();
   }
 
   if (LDAP_ADMIN_PASS_ENV in process.env) {
@@ -59,10 +58,9 @@ module.exports = Auth;
 //
 Auth.prototype.authenticate = function (username, password, callback) {
 
-  const hash = this.getHashByPasswordOrLogError(username, password);
   if (this._config.cache) {
-    const cached = this._userCache.get(username + hash);
-    if (cached && cached.password && bcrypt.compareSync(password, cached.password)) {
+    const cached = this._userCache.get(username );
+    if (cached && cached.password && md5(password) === cached.password) {
       if (cached.error) {
         return callback(null, false);
       }
@@ -95,7 +93,7 @@ Auth.prototype.authenticate = function (username, password, callback) {
     })
     .finally(() => {
       if (this._config.cache) {
-        this._userCache.set(username + hash, { password: hash, user: currentUser, error: currentError });
+        this._userCache.set(username, { password: md5(password), user: currentUser, error: currentError });
       }
       // This will do nothing with Node 10 (https://github.com/joyent/node-ldapjs/issues/483)
       ldapClient.closeAsync()
@@ -108,12 +106,4 @@ Auth.prototype.authenticate = function (username, password, callback) {
   ldapClient.on('error', (err) => {
     this._logger.warn({ err }, `verdaccio-ldap error ${err}`);
   });
-};
-
-Auth.prototype.getHashByPasswordOrLogError = function(username, password) {
-  try {
-    return bcrypt.hashSync(password, this._salt);
-  } catch(err) {
-    this._logger.warn({ username, err }, `verdaccio-ldap bcrypt hash error ${err}`);
-  }
 };
