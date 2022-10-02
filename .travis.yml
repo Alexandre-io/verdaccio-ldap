@@ -1,6 +1,0 @@
-language: node_js
-node_js:
-  - '18'
-  - '17'
-  - '16'
-script: npm install . && npm test

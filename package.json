@@ -23,7 +23,7 @@
   },
   "scripts": {
     "pretest": "jshint .",
-    "test": "snyk test && mocha --exit tests/bootstrap.spec.js tests/**/*.spec.js"
+    "test": "mocha --exit tests/bootstrap.spec.js tests/**/*.spec.js"
   },
   "keywords": [
     "verdaccio",
