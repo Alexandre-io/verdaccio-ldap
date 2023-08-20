@@ -19,7 +19,7 @@
     "jshint": "~2.13.5",
     "ldap-server-mock": "~5.0.0",
     "mocha": "~10.0.0",
-    "snyk": "~1.1019.0"
+    "snyk": "~1.1064.0"
   },
   "scripts": {
     "pretest": "jshint .",
