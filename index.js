@@ -30,7 +30,19 @@ function Auth(config, stuff) {
   self._logger = stuff.logger;
 
   // pass verdaccio logger to ldapauth
-  self._config.client_options.log = stuff.logger;
+  // Create a logger adapter compatible with ldapjs/bunyan
+  // Verdaccio 6.2.1+ changed the logger structure, so we need to adapt it
+  const loggerAdapter = {
+    trace: (...args) => self._logger.trace && self._logger.trace(...args),
+    debug: (...args) => self._logger.debug && self._logger.debug(...args),
+    info: (...args) => self._logger.info && self._logger.info(...args),
+    warn: (...args) => self._logger.warn && self._logger.warn(...args),
+    error: (...args) => self._logger.error && self._logger.error(...args),
+    fatal: (...args) => self._logger.fatal && self._logger.fatal(...args),
+    // ldapjs expects a child() method for creating child loggers
+    child: () => loggerAdapter,
+  };
+  self._config.client_options.log = loggerAdapter;
 
   // always set ldapauth cache false
   self._config.client_options.cache = false;

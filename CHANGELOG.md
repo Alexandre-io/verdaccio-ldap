@@ -1,3 +1,7 @@
+# 6.0.1 / 2025-11-27
+- Fix compatibility with Verdaccio 6.2.1+ by creating logger adapter for ldapjs
+- Resolves "TypeError: options.log must be an object" error
+
 # 6.0.0 / 2022-10-02
 - Update npm dependencies
 - Cache: use md5 instead of bcryptjs
